@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Globe } from '../components/Globe';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5001/api';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -28,11 +29,34 @@ function Home() {
   const totalWeeks = 6; // Standard hackathon length
 
   return (
-    <div>
-      <section className="hero">
-        <h1>Building the Future</h1>
-        <p>Follow our 6-week journey of creating something amazing from scratch. Weekly updates, challenges, and wins.</p>
+    <div style={{ position: 'relative', overflow: 'hidden' }}>
+      <section className="hero" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', minHeight: '45vh', paddingTop: '20px' }}>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: '600px' }}>
+          <h1 style={{ fontSize: 'clamp(52px, 6vw, 82px)' }}>From problem statement<br />to prototype.</h1>
+          <a href="#posts" className="start-reading-btn" style={{ textDecoration: 'none', display: 'inline-flex', width: 'fit-content' }}>
+            Start Reading <span className="btn-icon">✹</span>
+          </a>
+        </div>
+        <div style={{ position: 'absolute', right: '-750px', top: '50%', transform: 'translateY(-50%)', perspective: '1200px', width: '1200px', height: '1200px', zIndex: 0, pointerEvents: 'none' }}>
+          <div style={{ transform: 'rotateX(0deg) rotateY(0deg) rotateZ(0deg)', transformStyle: 'preserve-3d', width: '100%', height: '100%' }}>
+            <Globe />
+          </div>
+        </div>
       </section>
+
+      <div className="main-content-split" style={{ gridTemplateColumns: '1fr', maxWidth: '600px' }}>
+        <div className="about-blog-container" style={{ marginBottom: '10px' }}>
+          <h4 className="about-label">ABOUT THE BLOG</h4>
+          <p className="about-text">
+            This blog documents our team's journey through the hackathon -
+            from understanding the problem statement to experimenting with
+            ideas and building a working prototype. Instead of just
+            presenting the final result, we wanted to capture the process:
+            the decisions, the challenges, and the lessons learned along the
+            way.
+          </p>
+        </div>
+      </div>
 
       <div className="tracker">
         {Array.from({ length: totalWeeks }).map((_, i) => {
@@ -56,7 +80,7 @@ function Home() {
           No updates published yet. Check back soon!
         </div>
       ) : (
-        <div className="post-grid">
+        <div id="posts" className="post-grid">
           {posts.map(post => (
             <Link to={`/post/${post._id}`} key={post._id} className="card post-card">
               <span className="week-badge">Week {post.week_number}</span>
